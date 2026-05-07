@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const logo = "/LJ_Tires_Logo.png";
 const shopFront = "/shop-front.jpg";
@@ -177,31 +177,7 @@ const translations = {
 const serviceKeys = Object.keys(serviceData);
 const galleryImages = [lobby, shopFront, counter, bay, lobby, shopFront, counter, bay];
 
-function useDesktopViewport() {
-  useEffect(() => {
-    const desktopWidth = "1280";
-    let viewport = document.querySelector('meta[name="viewport"]');
-    const originalContent = viewport?.getAttribute("content") || "";
-
-    if (!viewport) {
-      viewport = document.createElement("meta");
-      viewport.setAttribute("name", "viewport");
-      document.head.appendChild(viewport);
-    }
-
-    viewport.setAttribute("content", `width=${desktopWidth}`);
-
-    return () => {
-      if (viewport) {
-        viewport.setAttribute("content", originalContent || "width=device-width, initial-scale=1.0");
-      }
-    };
-  }, []);
-}
-
-
 export default function App() {
-  useDesktopViewport();
   const [lang, setLang] = useState("en");
   const [showPopup, setShowPopup] = useState(new Date().getMonth() === 4);
   const [selectedPage, setSelectedPage] = useState("home");
@@ -252,7 +228,7 @@ Message: ${serviceForm.message}
       });
       const result = await response.json();
       if (!response.ok || !result.success) throw new Error("failed");
-      setStatus("Message Sent. L&J Tires received your request.");
+      setStatus("Sent");
       resetForm();
     } catch (error) {
       setStatus("Message failed. Please call the shop or send request by email.");
@@ -362,7 +338,7 @@ Message: ${serviceForm.message}
         <section style={styles.section} className="section"><h2>{t.sections.shop}</h2><div style={styles.floatingGallery} onMouseEnter={() => setPauseGallery(true)} onMouseLeave={() => setPauseGallery(false)}><div style={{ ...styles.floatingTrack, animationPlayState: pauseGallery ? "paused" : "running" }}>{galleryImages.map((img, index) => <button type="button" onClick={() => setOpenGalleryImage(img)} style={styles.floatingCardButton} key={`${img}-${index}`}><img src={img} alt="L&J shop" style={styles.floatingImg} /></button>)}</div></div></section>
         <section id="reviews" style={styles.section} className="section"><h2>{t.sections.reviews}</h2><div style={styles.reviewGrid}>{["Great price and fast service. Amazing place, friendly people and fast turnaround.", "Very honest, friendly, and professional. They made the whole process smooth.", "They helped me get financed and took care of everything without stress."].map((review, index) => <div style={styles.reviewCard} key={index}><p style={styles.stars}>★★★★★</p><p>“{review}”</p><h4>- L&J Customer</h4></div>)}</div><a href="https://www.google.com/search?q=L%26J+Tires+%26+Autocare+North+Miami+reviews" target="_blank" rel="noreferrer" style={styles.redBtn}>{t.buttons.readReviews}</a></section>
         <section id="contact" style={styles.contact}><h2>{t.sections.contact}</h2><p>☎ <a href={`tel:${phone}`} style={styles.contactLink}>{displayPhone}</a></p><p>✉ <a href={`mailto:${email}`} style={styles.contactLink}>{email}</a></p><p>📍 <a href={mapsLink} target="_blank" rel="noreferrer" style={styles.contactLink}>14831 W Dixie Hwy, North Miami, FL 33181</a></p><a href={mapsLink} target="_blank" rel="noreferrer" style={styles.whiteBtn}>{t.buttons.openMaps}</a></section>
-        <a href={`tel:${phone}`} style={styles.mobileCall} className="mobile-call-hidden">☎ Call</a>
+        <a href={`tel:${phone}`} style={styles.mobileCall} className="mobile-call">☎ Call</a>
       </div>
     </>
   );
@@ -379,12 +355,23 @@ function PromoCard({ img, title, text }) {
 function GlobalStyles() {
   return <style>{`
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      overflow-x:hidden;
+    html{
+      scroll-behavior:smooth;
       background:#000;
       min-width:1280px;
+    }
+    body{
+      margin:0;
+      overflow-x:auto;
+      overflow-y:auto;
+      background:#000;
+      min-width:1280px;
+    }
+    #root{
+      min-width:1280px;
+      width:1280px;
+      margin:0 auto;
+      background:#000;
     }
     button,a{-webkit-tap-highlight-color:transparent}
 
@@ -393,41 +380,103 @@ function GlobalStyles() {
     @keyframes floatGallery{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
     /*
-      DESKTOP-LOCK FIX:
-      This version intentionally does NOT convert the site into a stacked mobile layout.
-      The viewport is forced to 1280px from App.jsx, so phones render the same desktop layout,
-      just scaled down like the computer view.
+      TRUE DESKTOP VIEW ON MOBILE:
+      This does NOT make a responsive mobile layout.
+      It forces the page to stay 1280px wide, so phones show the same layout as the computer.
+      You can pinch/zoom or scroll sideways like a desktop website.
     */
+    @media(max-width:760px){
+      html, body, #root{
+        min-width:1280px!important;
+        width:1280px!important;
+        overflow-x:auto!important;
+      }
 
-    .site-header{
-      min-width:1280px;
-      flex-wrap:nowrap!important;
-    }
+      .site-header{
+        display:flex!important;
+        flex-direction:row!important;
+        flex-wrap:nowrap!important;
+        align-items:center!important;
+        justify-content:space-between!important;
+        padding:10px 12px!important;
+        gap:12px!important;
+        width:1280px!important;
+      }
 
-    .site-nav{
-      flex-wrap:nowrap!important;
-      overflow:visible!important;
-      white-space:nowrap!important;
-    }
+      .site-logo{
+        height:75px!important;
+        width:auto!important;
+      }
 
-    .hero-section{
-      min-width:1280px;
-      grid-template-columns:1.2fr .8fr!important;
-      min-height:600px!important;
-    }
+      .site-nav{
+        width:auto!important;
+        flex:1 1 auto!important;
+        display:flex!important;
+        flex-direction:row!important;
+        flex-wrap:nowrap!important;
+        justify-content:center!important;
+        gap:10px!important;
+        overflow:visible!important;
+        white-space:nowrap!important;
+      }
 
-    .hero-logo{
-      display:block!important;
-      max-width:300px!important;
-    }
+      .site-nav button,
+      .site-nav a{
+        flex:0 0 auto!important;
+        font-size:13px!important;
+        padding:9px 12px!important;
+        border-radius:12px!important;
+      }
 
-    .mobile-call-hidden{
-      display:none!important;
+      .header-call{
+        flex:0 0 auto!important;
+        min-height:48px!important;
+        padding:13px 20px!important;
+        font-size:16px!important;
+        margin:4px!important;
+      }
+
+      .hero-section{
+        min-height:600px!important;
+        width:1280px!important;
+        display:grid!important;
+        grid-template-columns:1.2fr .8fr!important;
+        gap:30px!important;
+        align-items:center!important;
+        padding:50px 30px!important;
+      }
+
+      .hero-content{
+        max-width:760px!important;
+      }
+
+      .hero-title{
+        font-size:64px!important;
+        line-height:1.02!important;
+        margin:22px 0!important;
+      }
+
+      .hero-logo{
+        display:block!important;
+        width:100%!important;
+        max-width:300px!important;
+        justify-self:center!important;
+      }
+
+      .section{
+        max-width:1200px!important;
+        padding:72px 50px!important;
+      }
+
+      .mobile-call{
+        display:none!important;
+      }
     }
   `}</style>;
 }
+
 const styles = {
-  page: { background: "#000", color: "#fff", fontFamily: "Arial, sans-serif", minHeight: "100vh", overflowX: "hidden" },
+  page: { background: "#000", color: "#fff", fontFamily: "Arial, sans-serif", minHeight: "100vh", overflowX: "visible", width: 1280, minWidth: 1280, margin: "0 auto" },
   header: {
     display: "flex",
     alignItems: "center",
