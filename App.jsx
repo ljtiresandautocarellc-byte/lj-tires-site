@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const logo = "/LJ_Tires_Logo.png";
 const shopFront = "/shop-front.jpg";
@@ -177,7 +177,31 @@ const translations = {
 const serviceKeys = Object.keys(serviceData);
 const galleryImages = [lobby, shopFront, counter, bay, lobby, shopFront, counter, bay];
 
+function useDesktopViewport() {
+  useEffect(() => {
+    const desktopWidth = "1280";
+    let viewport = document.querySelector('meta[name="viewport"]');
+    const originalContent = viewport?.getAttribute("content") || "";
+
+    if (!viewport) {
+      viewport = document.createElement("meta");
+      viewport.setAttribute("name", "viewport");
+      document.head.appendChild(viewport);
+    }
+
+    viewport.setAttribute("content", `width=${desktopWidth}`);
+
+    return () => {
+      if (viewport) {
+        viewport.setAttribute("content", originalContent || "width=device-width, initial-scale=1.0");
+      }
+    };
+  }, []);
+}
+
+
 export default function App() {
+  useDesktopViewport();
   const [lang, setLang] = useState("en");
   const [showPopup, setShowPopup] = useState(new Date().getMonth() === 4);
   const [selectedPage, setSelectedPage] = useState("home");
@@ -338,7 +362,7 @@ Message: ${serviceForm.message}
         <section style={styles.section} className="section"><h2>{t.sections.shop}</h2><div style={styles.floatingGallery} onMouseEnter={() => setPauseGallery(true)} onMouseLeave={() => setPauseGallery(false)}><div style={{ ...styles.floatingTrack, animationPlayState: pauseGallery ? "paused" : "running" }}>{galleryImages.map((img, index) => <button type="button" onClick={() => setOpenGalleryImage(img)} style={styles.floatingCardButton} key={`${img}-${index}`}><img src={img} alt="L&J shop" style={styles.floatingImg} /></button>)}</div></div></section>
         <section id="reviews" style={styles.section} className="section"><h2>{t.sections.reviews}</h2><div style={styles.reviewGrid}>{["Great price and fast service. Amazing place, friendly people and fast turnaround.", "Very honest, friendly, and professional. They made the whole process smooth.", "They helped me get financed and took care of everything without stress."].map((review, index) => <div style={styles.reviewCard} key={index}><p style={styles.stars}>★★★★★</p><p>“{review}”</p><h4>- L&J Customer</h4></div>)}</div><a href="https://www.google.com/search?q=L%26J+Tires+%26+Autocare+North+Miami+reviews" target="_blank" rel="noreferrer" style={styles.redBtn}>{t.buttons.readReviews}</a></section>
         <section id="contact" style={styles.contact}><h2>{t.sections.contact}</h2><p>☎ <a href={`tel:${phone}`} style={styles.contactLink}>{displayPhone}</a></p><p>✉ <a href={`mailto:${email}`} style={styles.contactLink}>{email}</a></p><p>📍 <a href={mapsLink} target="_blank" rel="noreferrer" style={styles.contactLink}>14831 W Dixie Hwy, North Miami, FL 33181</a></p><a href={mapsLink} target="_blank" rel="noreferrer" style={styles.whiteBtn}>{t.buttons.openMaps}</a></section>
-        <a href={`tel:${phone}`} style={styles.mobileCall}>☎ Call</a>
+        <a href={`tel:${phone}`} style={styles.mobileCall} className="mobile-call-hidden">☎ Call</a>
       </div>
     </>
   );
@@ -356,7 +380,12 @@ function GlobalStyles() {
   return <style>{`
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{margin:0;overflow-x:hidden;background:#000}
+    body{
+      margin:0;
+      overflow-x:hidden;
+      background:#000;
+      min-width:1280px;
+    }
     button,a{-webkit-tap-highlight-color:transparent}
 
     @keyframes heroZoom{0%{transform:scale(1)}100%{transform:scale(1.08)}}
@@ -364,162 +393,39 @@ function GlobalStyles() {
     @keyframes floatGallery{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
     /*
-      IMPORTANT MOBILE FIX:
-      Before, the mobile header stacked vertically and pushed the hero down.
-      This keeps the phone version looking like the desktop version:
-      logo on the left, menu in the middle, Call Now on the right.
-      The nav scrolls sideways only if the phone screen is too narrow.
+      DESKTOP-LOCK FIX:
+      This version intentionally does NOT convert the site into a stacked mobile layout.
+      The viewport is forced to 1280px from App.jsx, so phones render the same desktop layout,
+      just scaled down like the computer view.
     */
-    @media(max-width:760px){
-      body{overflow-x:hidden}
-      h2{font-size:28px!important}
-      h3{font-size:20px!important}
 
-      .site-header{
-        display:flex!important;
-        flex-direction:row!important;
-        flex-wrap:nowrap!important;
-        align-items:center!important;
-        justify-content:space-between!important;
-        gap:8px!important;
-        padding:8px 10px!important;
-        min-height:72px!important;
-      }
-
-      .logo-home-button{
-        flex:0 0 auto!important;
-      }
-
-      .site-logo{
-        height:58px!important;
-        width:auto!important;
-      }
-
-      .site-nav{
-        width:auto!important;
-        flex:1 1 auto!important;
-        display:flex!important;
-        flex-direction:row!important;
-        flex-wrap:nowrap!important;
-        justify-content:flex-start!important;
-        gap:7px!important;
-        overflow-x:auto!important;
-        overflow-y:hidden!important;
-        white-space:nowrap!important;
-        scrollbar-width:none!important;
-        -ms-overflow-style:none!important;
-        padding:2px 2px!important;
-      }
-
-      .site-nav::-webkit-scrollbar{
-        display:none!important;
-      }
-
-      .site-nav button,
-      .site-nav a{
-        flex:0 0 auto!important;
-        font-size:12px!important;
-        padding:8px 10px!important;
-        border-radius:10px!important;
-      }
-
-      .header-call{
-        flex:0 0 auto!important;
-        min-height:44px!important;
-        padding:10px 14px!important;
-        font-size:13px!important;
-        margin:0!important;
-        border-radius:14px!important;
-      }
-
-      .hero-section{
-        min-height:760px!important;
-        display:grid!important;
-        grid-template-columns:1.08fr .92fr!important;
-        gap:12px!important;
-        align-items:center!important;
-        padding:44px 18px 54px!important;
-      }
-
-      .hero-content{
-        max-width:100%!important;
-      }
-
-      .hero-title{
-        font-size:clamp(36px, 12vw, 56px)!important;
-        line-height:1.02!important;
-        margin:18px 0!important;
-      }
-
-      .hero-logo{
-        display:block!important;
-        width:100%!important;
-        max-width:220px!important;
-        align-self:center!important;
-        justify-self:center!important;
-      }
-
-      .trust-badges{
-        gap:8px!important;
-      }
-
-      .button-row{
-        gap:7px!important;
-      }
-
-      .mobile-call-spacer{
-        height:72px!important;
-      }
+    .site-header{
+      min-width:1280px;
+      flex-wrap:nowrap!important;
     }
 
-    @media(max-width:430px){
-      .site-logo{
-        height:48px!important;
-      }
-
-      .site-nav button,
-      .site-nav a{
-        font-size:11px!important;
-        padding:7px 9px!important;
-      }
-
-      .header-call{
-        min-height:40px!important;
-        padding:9px 11px!important;
-        font-size:12px!important;
-      }
-
-      .hero-section{
-        min-height:720px!important;
-        grid-template-columns:1fr .74fr!important;
-        gap:8px!important;
-        padding:36px 14px 48px!important;
-      }
-
-      .hero-title{
-        font-size:clamp(34px, 12vw, 48px)!important;
-      }
-
-      .hero-logo{
-        max-width:185px!important;
-      }
+    .site-nav{
+      flex-wrap:nowrap!important;
+      overflow:visible!important;
+      white-space:nowrap!important;
     }
 
-    @media(max-width:360px){
-      .hero-section{
-        grid-template-columns:1fr!important;
-        min-height:760px!important;
-      }
+    .hero-section{
+      min-width:1280px;
+      grid-template-columns:1.2fr .8fr!important;
+      min-height:600px!important;
+    }
 
-      .hero-logo{
-        max-width:210px!important;
-        justify-self:start!important;
-        margin-top:6px!important;
-      }
+    .hero-logo{
+      display:block!important;
+      max-width:300px!important;
+    }
+
+    .mobile-call-hidden{
+      display:none!important;
     }
   `}</style>;
 }
-
 const styles = {
   page: { background: "#000", color: "#fff", fontFamily: "Arial, sans-serif", minHeight: "100vh", overflowX: "hidden" },
   header: {
