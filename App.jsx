@@ -259,7 +259,7 @@ Message: ${serviceForm.message}
         <GlobalStyles />
         <div style={styles.page}>
           <Header t={t} lang={lang} setLang={setLang} goHome={goHome} simple />
-          <section style={styles.servicePageHero}>
+          <section style={styles.servicePageHero} className="service-page-hero">
             <div style={styles.servicePageOverlay} />
             <div style={styles.servicePageContent}>
               <p style={styles.badge}>L&J Tires & Autocare</p>
@@ -267,7 +267,7 @@ Message: ${serviceForm.message}
               <p style={styles.desc}>{page.note[lang]}</p>
             </div>
           </section>
-          <section style={styles.section}>
+          <section style={styles.section} className="section">
             <div style={styles.priceGrid}>
               {page.boxes.map((box) => (
                 <div style={styles.priceBox} key={box[1]}>
@@ -299,7 +299,7 @@ Message: ${serviceForm.message}
                 <select name="issue" value={serviceForm.issue} onChange={updateServiceForm} style={styles.input}><option value="">{t.form.issue}</option>{page.issues.map((issue) => <option key={issue} value={issue}>{issue}</option>)}</select>
               </div>
               <textarea name="message" placeholder={t.form.message} value={serviceForm.message} onChange={updateServiceForm} style={styles.textarea} />
-              <div style={styles.buttonRow}>
+              <div style={styles.buttonRow} className="button-row">
                 <button onClick={sendServiceText} style={styles.redBtn} disabled={sending}>{sending ? "Sending..." : t.buttons.sendText}</button>
                 <button onClick={sendServiceEmail} style={styles.darkBtn}>{t.buttons.sendEmail}</button>
                 <a href={mapsLink} target="_blank" rel="noreferrer" style={styles.whiteBtn}>{t.buttons.getDirections}</a>
@@ -319,24 +319,24 @@ Message: ${serviceForm.message}
         {openGalleryImage && <div style={styles.galleryPopupBg} onClick={() => setOpenGalleryImage(null)}><div style={styles.galleryPopup} onClick={(e) => e.stopPropagation()}><img src={openGalleryImage} alt="L&J Shop Preview" style={styles.galleryPopupImg} /></div></div>}
         {showPopup && <div style={styles.popupBg}><div style={styles.popup}><button onClick={() => setShowPopup(false)} style={styles.close}>×</button><p style={styles.redSmall}>{t.popup.small}</p><h2>{t.popup.title}</h2><p>{t.popup.text}</p><a href={`tel:${phone}`} style={styles.redBtn}>{t.buttons.call}</a><a href="#promotions" onClick={() => setShowPopup(false)} style={styles.whiteBtn}>{t.buttons.viewPromotions}</a></div></div>}
         <Header t={t} lang={lang} setLang={setLang} goHome={goHome} />
-        <section style={styles.hero}>
+        <section style={styles.hero} className="hero-section">
           <div style={styles.heroBg} /><div style={styles.heroOverlay} /><div style={styles.lightSweep} />
-          <div style={styles.heroContent}>
+          <div style={styles.heroContent} className="hero-content">
             <p style={styles.badge}>{t.hero.badge}</p>
-            <h1 style={styles.title}><span>{t.hero.one}</span><br /><span>{t.hero.two}</span><br /><span style={styles.glowRed}>{t.hero.three}</span></h1>
+            <h1 style={styles.title} className="hero-title"><span>{t.hero.one}</span><br /><span>{t.hero.two}</span><br /><span style={styles.glowRed}>{t.hero.three}</span></h1>
             <p style={styles.mission}>{t.hero.mission}</p>
-            <div style={styles.trustBadges}><a href="#reviews" style={styles.trustBadge}>⭐ 5-Star Service</a><a href="#services" style={styles.trustBadge}>🔧 Honest Repairs</a><a href="#financing" style={styles.trustBadge}>💳 Financing Available</a><a href={mapsLink} target="_blank" rel="noreferrer" style={styles.trustBadge}>📍 North Miami Trusted</a></div>
-            <p style={styles.oil}>🔥 {t.hero.oil}</p>
+            <div style={styles.trustBadges} className="trust-badges"><a href="#reviews" style={styles.trustBadge}>⭐ 5-Star Service</a><a href="#services" style={styles.trustBadge}>🔧 Honest Repairs</a><a href="#financing" style={styles.trustBadge}>💳 Financing Available</a><a href={mapsLink} target="_blank" rel="noreferrer" style={styles.trustBadge}>📍 North Miami Trusted</a></div>
+            <p style={styles.oil}>{`🔥 ${t.hero.oil}`}</p>
             <p style={styles.desc}><strong>{t.hero.lang}</strong><br />{t.hero.desc}</p>
-            <div style={styles.buttonRow}><a href={`tel:${phone}`} style={styles.redBtn}>☎ {displayPhone}</a><a href="#promotions" style={styles.darkBtn}>{t.buttons.viewPromotions}</a><a href={mapsLink} target="_blank" rel="noreferrer" style={styles.darkBtn}>{t.buttons.getDirections}</a></div>
+            <div style={styles.buttonRow} className="button-row"><a href={`tel:${phone}`} style={styles.redBtn}>☎ {displayPhone}</a><a href="#promotions" style={styles.darkBtn}>{t.buttons.viewPromotions}</a><a href={mapsLink} target="_blank" rel="noreferrer" style={styles.darkBtn}>{t.buttons.getDirections}</a></div>
           </div>
-          <img src={logo} alt="L&J logo" style={styles.heroLogo} />
+          <img src={logo} alt="L&J logo" style={styles.heroLogo} className="hero-logo" />
         </section>
-        <section id="services" style={styles.section}><h2>{t.sections.services}</h2><div style={styles.cards}>{serviceKeys.map((key) => { const s = serviceData[key]; const isHovered = hoveredService === key; return <div key={key} onClick={() => openServicePage(key)} onMouseEnter={() => setHoveredService(key)} onMouseLeave={() => setHoveredService(null)} style={{ ...styles.card, transform: isHovered ? "scale(1.03)" : "scale(1)", backgroundImage: `url(${s.img})` }}><div style={styles.cardBlurLayer} /><h3 style={styles.serviceTitle}><span>{s.icon}</span> {s.menuTitle[lang]}</h3></div>; })}</div></section>
-        <section id="promotions" style={styles.section}><h2>{t.sections.promotions}</h2><p style={styles.sectionNote}>{t.sections.promoNote}</p><div style={styles.promoGrid}><PromoCard img={mayPromoImage} title="View May Specials" text="Oil changes, tire deals, and Mother’s Month offers" /><PromoCard img={mayPromoImageTwo} title="Miami’s Best Deals This May" text="Click to view the full promotion" /></div></section>
-        <section id="financing" style={styles.section}><h2>{t.sections.financing}</h2><div style={styles.banner}>💳 TWO FINANCING OPTIONS AVAILABLE — APPLY TODAY</div><div style={styles.financeGrid}><div style={styles.financeBoxSnap}><h3>SNAP FINANCING</h3><p>Click below to apply directly with Snap Finance.</p><a href={snapLink} target="_blank" rel="noreferrer"><img src="https://merchant-banners-s3.snapfinance.com/Loans/EN/A160x600.jpeg" alt="Snap Finance" style={styles.financeImg} /></a></div><div style={styles.financeBoxKoalafi}><h3>KOALAFI FINANCING</h3><p>Scan the Koalafi QR code to apply and pay over time.</p><img src={koalafiFlyer} alt="Koalafi QR" style={styles.qr} /><h4>SCAN TO APPLY</h4></div></div></section>
-        <section style={styles.section}><h2>{t.sections.shop}</h2><div style={styles.floatingGallery} onMouseEnter={() => setPauseGallery(true)} onMouseLeave={() => setPauseGallery(false)}><div style={{ ...styles.floatingTrack, animationPlayState: pauseGallery ? "paused" : "running" }}>{galleryImages.map((img, index) => <button type="button" onClick={() => setOpenGalleryImage(img)} style={styles.floatingCardButton} key={`${img}-${index}`}><img src={img} alt="L&J shop" style={styles.floatingImg} /></button>)}</div></div></section>
-        <section id="reviews" style={styles.section}><h2>{t.sections.reviews}</h2><div style={styles.reviewGrid}>{["Great price and fast service. Amazing place, friendly people and fast turnaround.", "Very honest, friendly, and professional. They made the whole process smooth.", "They helped me get financed and took care of everything without stress."].map((review, index) => <div style={styles.reviewCard} key={index}><p style={styles.stars}>★★★★★</p><p>“{review}”</p><h4>- L&J Customer</h4></div>)}</div><a href="https://www.google.com/search?q=L%26J+Tires+%26+Autocare+North+Miami+reviews" target="_blank" rel="noreferrer" style={styles.redBtn}>{t.buttons.readReviews}</a></section>
+        <section id="services" style={styles.section} className="section"><h2>{t.sections.services}</h2><div style={styles.cards}>{serviceKeys.map((key) => { const s = serviceData[key]; const isHovered = hoveredService === key; return <div key={key} onClick={() => openServicePage(key)} onMouseEnter={() => setHoveredService(key)} onMouseLeave={() => setHoveredService(null)} style={{ ...styles.card, transform: isHovered ? "scale(1.03)" : "scale(1)", backgroundImage: `url(${s.img})` }}><div style={styles.cardBlurLayer} /><h3 style={styles.serviceTitle}><span>{s.icon}</span> {s.menuTitle[lang]}</h3></div>; })}</div></section>
+        <section id="promotions" style={styles.section} className="section"><h2>{t.sections.promotions}</h2><p style={styles.sectionNote}>{t.sections.promoNote}</p><div style={styles.promoGrid}><PromoCard img={mayPromoImage} title="View May Specials" text="Oil changes, tire deals, and Mother’s Month offers" /><PromoCard img={mayPromoImageTwo} title="Miami’s Best Deals This May" text="Click to view the full promotion" /></div></section>
+        <section id="financing" style={styles.section} className="section"><h2>{t.sections.financing}</h2><div style={styles.banner}>💳 TWO FINANCING OPTIONS AVAILABLE — APPLY TODAY</div><div style={styles.financeGrid}><div style={styles.financeBoxSnap}><h3>SNAP FINANCING</h3><p>Click below to apply directly with Snap Finance.</p><a href={snapLink} target="_blank" rel="noreferrer"><img src="https://merchant-banners-s3.snapfinance.com/Loans/EN/A160x600.jpeg" alt="Snap Finance" style={styles.financeImg} /></a></div><div style={styles.financeBoxKoalafi}><h3>KOALAFI FINANCING</h3><p>Scan the Koalafi QR code to apply and pay over time.</p><img src={koalafiFlyer} alt="Koalafi QR" style={styles.qr} /><h4>SCAN TO APPLY</h4></div></div></section>
+        <section style={styles.section} className="section"><h2>{t.sections.shop}</h2><div style={styles.floatingGallery} onMouseEnter={() => setPauseGallery(true)} onMouseLeave={() => setPauseGallery(false)}><div style={{ ...styles.floatingTrack, animationPlayState: pauseGallery ? "paused" : "running" }}>{galleryImages.map((img, index) => <button type="button" onClick={() => setOpenGalleryImage(img)} style={styles.floatingCardButton} key={`${img}-${index}`}><img src={img} alt="L&J shop" style={styles.floatingImg} /></button>)}</div></div></section>
+        <section id="reviews" style={styles.section} className="section"><h2>{t.sections.reviews}</h2><div style={styles.reviewGrid}>{["Great price and fast service. Amazing place, friendly people and fast turnaround.", "Very honest, friendly, and professional. They made the whole process smooth.", "They helped me get financed and took care of everything without stress."].map((review, index) => <div style={styles.reviewCard} key={index}><p style={styles.stars}>★★★★★</p><p>“{review}”</p><h4>- L&J Customer</h4></div>)}</div><a href="https://www.google.com/search?q=L%26J+Tires+%26+Autocare+North+Miami+reviews" target="_blank" rel="noreferrer" style={styles.redBtn}>{t.buttons.readReviews}</a></section>
         <section id="contact" style={styles.contact}><h2>{t.sections.contact}</h2><p>☎ <a href={`tel:${phone}`} style={styles.contactLink}>{displayPhone}</a></p><p>✉ <a href={`mailto:${email}`} style={styles.contactLink}>{email}</a></p><p>📍 <a href={mapsLink} target="_blank" rel="noreferrer" style={styles.contactLink}>14831 W Dixie Hwy, North Miami, FL 33181</a></p><a href={mapsLink} target="_blank" rel="noreferrer" style={styles.whiteBtn}>{t.buttons.openMaps}</a></section>
         <a href={`tel:${phone}`} style={styles.mobileCall}>☎ Call</a>
       </div>
@@ -345,7 +345,7 @@ Message: ${serviceForm.message}
 }
 
 function Header({ t, lang, setLang, goHome, simple }) {
-  return <header style={styles.header}><button type="button" onClick={goHome} style={styles.logoHomeButton}><img src={logo} alt="L&J Tires" style={styles.logo} /></button><nav style={styles.nav}><button style={lang === "en" ? styles.langBtnActive : styles.langBtn} onClick={() => setLang("en")}>EN</button><button style={lang === "es" ? styles.langBtnActive : styles.langBtn} onClick={() => setLang("es")}>ES</button><button style={lang === "ht" ? styles.langBtnActive : styles.langBtn} onClick={() => setLang("ht")}>KREYÒL</button>{!simple && <><a href="#services" style={styles.navBtn}>{t.nav.services}</a><a href="#promotions" style={styles.navBtn}>{t.nav.promotions}</a><a href="#financing" style={styles.navBtn}>{t.nav.financing}</a><a href="#contact" style={styles.navBtn}>{t.nav.contact}</a></>}</nav><a href={`tel:${phone}`} style={styles.redBtn}>{t.buttons.call}</a></header>;
+  return <header style={styles.header} className="site-header"><button type="button" onClick={goHome} style={styles.logoHomeButton} className="logo-home-button"><img src={logo} alt="L&J Tires" style={styles.logo} className="site-logo" /></button><nav style={styles.nav} className="site-nav"><button style={lang === "en" ? styles.langBtnActive : styles.langBtn} onClick={() => setLang("en")}>EN</button><button style={lang === "es" ? styles.langBtnActive : styles.langBtn} onClick={() => setLang("es")}>ES</button><button style={lang === "ht" ? styles.langBtnActive : styles.langBtn} onClick={() => setLang("ht")}>KREYÒL</button>{!simple && <><a href="#services" style={styles.navBtn}>{t.nav.services}</a><a href="#promotions" style={styles.navBtn}>{t.nav.promotions}</a><a href="#financing" style={styles.navBtn}>{t.nav.financing}</a><a href="#contact" style={styles.navBtn}>{t.nav.contact}</a></>}</nav><a href={`tel:${phone}`} style={styles.redBtn} className="header-call">{t.buttons.call}</a></header>;
 }
 
 function PromoCard({ img, title, text }) {
@@ -354,59 +354,224 @@ function PromoCard({ img, title, text }) {
 
 function GlobalStyles() {
   return <style>{`
-    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;overflow-x:hidden;background:#000} button,a{-webkit-tap-highlight-color:transparent}
-    @keyframes heroZoom{0%{transform:scale(1)}100%{transform:scale(1.08)}} @keyframes lightSweep{0%{transform:translateX(-120%) skewX(-18deg);opacity:0}20%{opacity:.25}100%{transform:translateX(140%) skewX(-18deg);opacity:0}} @keyframes floatGallery{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-    @media(max-width:760px){body{overflow-x:hidden} h2{font-size:28px!important} h3{font-size:20px!important}}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;overflow-x:hidden;background:#000}
+    button,a{-webkit-tap-highlight-color:transparent}
+
+    @keyframes heroZoom{0%{transform:scale(1)}100%{transform:scale(1.08)}}
+    @keyframes lightSweep{0%{transform:translateX(-120%) skewX(-18deg);opacity:0}20%{opacity:.25}100%{transform:translateX(140%) skewX(-18deg);opacity:0}}
+    @keyframes floatGallery{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    /*
+      IMPORTANT MOBILE FIX:
+      Before, the mobile header stacked vertically and pushed the hero down.
+      This keeps the phone version looking like the desktop version:
+      logo on the left, menu in the middle, Call Now on the right.
+      The nav scrolls sideways only if the phone screen is too narrow.
+    */
+    @media(max-width:760px){
+      body{overflow-x:hidden}
+      h2{font-size:28px!important}
+      h3{font-size:20px!important}
+
+      .site-header{
+        display:flex!important;
+        flex-direction:row!important;
+        flex-wrap:nowrap!important;
+        align-items:center!important;
+        justify-content:space-between!important;
+        gap:8px!important;
+        padding:8px 10px!important;
+        min-height:72px!important;
+      }
+
+      .logo-home-button{
+        flex:0 0 auto!important;
+      }
+
+      .site-logo{
+        height:58px!important;
+        width:auto!important;
+      }
+
+      .site-nav{
+        width:auto!important;
+        flex:1 1 auto!important;
+        display:flex!important;
+        flex-direction:row!important;
+        flex-wrap:nowrap!important;
+        justify-content:flex-start!important;
+        gap:7px!important;
+        overflow-x:auto!important;
+        overflow-y:hidden!important;
+        white-space:nowrap!important;
+        scrollbar-width:none!important;
+        -ms-overflow-style:none!important;
+        padding:2px 2px!important;
+      }
+
+      .site-nav::-webkit-scrollbar{
+        display:none!important;
+      }
+
+      .site-nav button,
+      .site-nav a{
+        flex:0 0 auto!important;
+        font-size:12px!important;
+        padding:8px 10px!important;
+        border-radius:10px!important;
+      }
+
+      .header-call{
+        flex:0 0 auto!important;
+        min-height:44px!important;
+        padding:10px 14px!important;
+        font-size:13px!important;
+        margin:0!important;
+        border-radius:14px!important;
+      }
+
+      .hero-section{
+        min-height:760px!important;
+        display:grid!important;
+        grid-template-columns:1.08fr .92fr!important;
+        gap:12px!important;
+        align-items:center!important;
+        padding:44px 18px 54px!important;
+      }
+
+      .hero-content{
+        max-width:100%!important;
+      }
+
+      .hero-title{
+        font-size:clamp(36px, 12vw, 56px)!important;
+        line-height:1.02!important;
+        margin:18px 0!important;
+      }
+
+      .hero-logo{
+        display:block!important;
+        width:100%!important;
+        max-width:220px!important;
+        align-self:center!important;
+        justify-self:center!important;
+      }
+
+      .trust-badges{
+        gap:8px!important;
+      }
+
+      .button-row{
+        gap:7px!important;
+      }
+
+      .mobile-call-spacer{
+        height:72px!important;
+      }
+    }
+
+    @media(max-width:430px){
+      .site-logo{
+        height:48px!important;
+      }
+
+      .site-nav button,
+      .site-nav a{
+        font-size:11px!important;
+        padding:7px 9px!important;
+      }
+
+      .header-call{
+        min-height:40px!important;
+        padding:9px 11px!important;
+        font-size:12px!important;
+      }
+
+      .hero-section{
+        min-height:720px!important;
+        grid-template-columns:1fr .74fr!important;
+        gap:8px!important;
+        padding:36px 14px 48px!important;
+      }
+
+      .hero-title{
+        font-size:clamp(34px, 12vw, 48px)!important;
+      }
+
+      .hero-logo{
+        max-width:185px!important;
+      }
+    }
+
+    @media(max-width:360px){
+      .hero-section{
+        grid-template-columns:1fr!important;
+        min-height:760px!important;
+      }
+
+      .hero-logo{
+        max-width:210px!important;
+        justify-self:start!important;
+        margin-top:6px!important;
+      }
+    }
   `}</style>;
 }
 
 const styles = {
   page: { background: "#000", color: "#fff", fontFamily: "Arial, sans-serif", minHeight: "100vh", overflowX: "hidden" },
   header: {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: "10px 12px",
-  background: "#050505",
-  borderBottom: "1px solid #991b1b",
-  position: "relative",
-  zIndex: 10,
-  gap: 10,
-  flexWrap: "wrap",
-},logo: { height: "clamp(52px, 12vw, 75px)", display: "block" },
-  logoHomeButton: { background: "transparent", border: "none", padding: 0, margin: 0, cursor: "pointer", display: "inline-flex", alignItems: "center" },
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "10px 12px",
+    background: "#050505",
+    borderBottom: "1px solid #991b1b",
+    position: "relative",
+    zIndex: 10,
+    gap: 12,
+    flexWrap: "nowrap",
+    width: "100%",
+  },
+  logo: { height: "clamp(52px, 5vw, 75px)", display: "block" },
+  logoHomeButton: { background: "transparent", border: "none", padding: 0, margin: 0, cursor: "pointer", display: "inline-flex", alignItems: "center", flex: "0 0 auto" },
   nav: {
-  display: "flex",
-  gap: 8,
-  alignItems: "center",
-  justifyContent: "center",
-  flexWrap: "wrap",
-  width: "100%",
-},
+    display: "flex",
+    gap: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    flexWrap: "nowrap",
+    width: "auto",
+    flex: "1 1 auto",
+    minWidth: 0,
+  },
+  langBtn: { background: "transparent", color: "#fff", border: "1px solid #dc2626", padding: "8px 11px", borderRadius: 10, cursor: "pointer", fontWeight: 900, fontSize: 12 },
   langBtnActive: { background: "#dc2626", color: "#fff", border: "1px solid #dc2626", padding: "8px 11px", borderRadius: 10, cursor: "pointer", fontWeight: 900, fontSize: 12 },
   navBtn: { background: "#111", color: "#fff", padding: "9px 12px", borderRadius: 12, textDecoration: "none", fontWeight: 800, border: "1px solid #333", fontSize: 13 },
   hero: {
-  position: "relative",
-  minHeight: "600px",
-  overflow: "hidden",
-  display: "grid",
-  gridTemplateColumns: "1.2fr .8fr",
-  gap: 30,
-  alignItems: "center",
-  padding: "50px 30px",
-},
+    position: "relative",
+    minHeight: "600px",
+    overflow: "hidden",
+    display: "grid",
+    gridTemplateColumns: "1.2fr .8fr",
+    gap: 30,
+    alignItems: "center",
+    padding: "50px 30px",
+  },
   heroBg: { position: "absolute", inset: 0, backgroundImage: `url(${shopFront})`, backgroundSize: "cover", backgroundPosition: "center", animation: "heroZoom 22s ease-in-out infinite alternate", zIndex: 0 },
   heroOverlay: { position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(0,0,0,.86), rgba(0,0,0,.50)), radial-gradient(circle, rgba(0,0,0,0) 35%, rgba(0,0,0,.75) 100%)", zIndex: 1 },
   lightSweep: { position: "absolute", top: 0, bottom: 0, left: 0, width: "35%", background: "linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent)", animation: "lightSweep 7s ease-in-out infinite", zIndex: 2, pointerEvents: "none" },
   heroContent: { position: "relative", zIndex: 3, maxWidth: 760 },
   badge: { display: "inline-block", border: "1px solid #dc2626", padding: "10px 16px", borderRadius: 999, color: "#fecaca", background: "rgba(0,0,0,.45)", fontWeight: 800, fontSize: "clamp(12px, 3.5vw, 15px)" },
   title: {
-  fontSize: "clamp(38px, 7vw, 64px)",
-  lineHeight: 1.02,
-  fontWeight: 900,
-  letterSpacing: "-1px",
-  margin: "22px 0",
-},
+    fontSize: "clamp(38px, 7vw, 64px)",
+    lineHeight: 1.02,
+    fontWeight: 900,
+    letterSpacing: "-1px",
+    margin: "22px 0",
+  },
   glowRed: { color: "#ef4444", textShadow: "0 0 10px rgba(239,68,68,.8), 0 0 24px rgba(239,68,68,.45)" },
   mission: { fontSize: "clamp(16px, 4vw, 20px)", color: "#e5e7eb", marginTop: 18, maxWidth: 720, lineHeight: 1.5 },
   trustBadges: { display: "flex", flexWrap: "wrap", gap: 10, marginTop: 18 },
@@ -414,13 +579,13 @@ const styles = {
   oil: { border: "1px solid #dc2626", padding: 16, borderRadius: 18, maxWidth: 650, lineHeight: 1.45, background: "rgba(0,0,0,.58)" },
   desc: { fontSize: "clamp(16px, 4vw, 20px)", maxWidth: 650, lineHeight: 1.5 },
   heroLogo: {
-  position: "relative",
-  zIndex: 4,
-  maxWidth: 300,
-  width: "100%",
-  justifySelf: "center",
-  filter: "drop-shadow(0 0 24px rgba(220,38,38,.45))",
-},
+    position: "relative",
+    zIndex: 4,
+    maxWidth: 300,
+    width: "100%",
+    justifySelf: "center",
+    filter: "drop-shadow(0 0 24px rgba(220,38,38,.45))",
+  },
   servicePageHero: { position: "relative", minHeight: 320, overflow: "hidden", backgroundImage: `url(${shopFront})`, backgroundSize: "cover", backgroundPosition: "center", display: "flex", alignItems: "center", padding: "clamp(45px, 9vw, 70px) clamp(16px, 5vw, 50px)" },
   servicePageOverlay: { position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(0,0,0,.88), rgba(0,0,0,.55))" },
   servicePageContent: { position: "relative", zIndex: 2, maxWidth: 850 },
